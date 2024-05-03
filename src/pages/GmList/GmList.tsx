@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { useGmListViewModel } from "./GmList.viewModel";
 import appRoutes from "../../constants/appRoutes";
+import { PlayerList, PlayerRow } from "./GmList.styles";
+import { PageWrapper } from "../../components/PageWrapper";
 
 export const GmList = () => {
   const navigate = useNavigate();
@@ -11,18 +13,20 @@ export const GmList = () => {
     navigate(appRoutes.gmProfile(username));
   };
 
-  if (isLoading) return <p>Loading...</p>;
-
-  if (!list || error)
-    return <p>{"An error has occurred: " + error?.message}</p>;
-
   return (
-    <ol>
-      {list.map((username, index) => (
-        <li key={index} onClick={() => handleGmClick(username)}>
-          {username}
-        </li>
-      ))}
-    </ol>
+    <PageWrapper>
+      <h1>Grandmasters list</h1>
+      {isLoading && <p>Loading...</p>}
+      {error && <p>{"An error has occurred: " + error?.message}</p>}
+      {!isLoading && !error && list && (
+        <PlayerList>
+          {list.map((username, index) => (
+            <PlayerRow key={index} onClick={() => handleGmClick(username)}>
+              {index}.&nbsp;{username}
+            </PlayerRow>
+          ))}
+        </PlayerList>
+      )}
+    </PageWrapper>
   );
 };

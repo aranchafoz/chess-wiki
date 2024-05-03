@@ -1,6 +1,11 @@
 import { DefaultTheme } from "styled-components";
 
 export const paletteColors = {
+  blue100: "#DDF0FF",
+  blue200: "#CDE9FE",
+  blue500: "#2689EF",
+  blue600: "#1465CA",
+  blue700: "#0C378A",
   grey100: "#F6F6F6",
   grey200: "#E0E2E5",
   grey500: "#9098A1",
@@ -10,6 +15,7 @@ export const paletteColors = {
 };
 
 const colors = {
+  ...paletteColors,
   textPrimary: paletteColors.grey900,
   textSecondary: paletteColors.grey600,
 };

@@ -1,6 +1,26 @@
 import { useNavigate } from "react-router-dom";
 import { useGmProfileViewModel } from "./GmProfile.viewModel";
 import appRoutes from "../../constants/appRoutes";
+import {
+  BackButton,
+  ChessProfileLink,
+  ProfileName,
+  ProfileUsername,
+  ProfileAvatar,
+  ProfileCard,
+  ProfileLabel,
+  SmallIcon,
+} from "./GmProfile.styles";
+import { Flex } from "../../components/Flex";
+import { PageWrapper } from "../../components/PageWrapper";
+import { Spacer } from "../../components/Spacer";
+
+const chessImg =
+  "https://www.chess.com/bundles/web/favicons/favicon.5d6cb047.svg";
+const verifiedImg =
+  "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Twitter_Verified_Badge.svg/2048px-Twitter_Verified_Badge.svg.png";
+const emptyAvatarImg =
+  "https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1114445501.jpg";
 
 export const GmProfile = () => {
   const navigate = useNavigate();
@@ -19,19 +39,45 @@ export const GmProfile = () => {
   if (!profile) return <p>Profile not found</p>;
 
   return (
-    <div>
-      <button onClick={handleGoBack}>Go to the list</button>
-      <p>{profile.name}</p>
-      <p>@{profile.username}</p>
-      <a href={profile.url}>Chess profile</a>
-      <p>
-        <img src={profile.avatar} alt={`${profile.name} avatar`} />
-      </p>
-      <p>Followers: {profile.followers}</p>
-      <p>League: {profile.league ?? "-"}</p>
-      <p>Online: {timeSinceLastOnline}</p>
-      {profile.is_streamer && <p>Streamer</p>}
-      {profile.verified && <p>Verified</p>}
-    </div>
+    <PageWrapper gap={[6, 6]}>
+      <Spacer top={6} />
+      <Flex justifyContent="flex-start">
+        <BackButton onClick={handleGoBack}>{"<"} Back to the list</BackButton>
+      </Flex>
+      <ProfileCard>
+        <Flex alignItems="flex-start" gap={[3, 3]}>
+          <ProfileAvatar
+            src={profile.avatar ?? emptyAvatarImg}
+            alt={`${profile.name} avatar`}
+          />
+          <Flex column gap={[4, 4]}>
+            <Flex alignItems="center" gap={[3, 3]}>
+              <ProfileName>{profile.name}</ProfileName>
+              <ProfileUsername>@{profile.username}</ProfileUsername>
+              {profile.verified && (
+                <SmallIcon src={verifiedImg} alt="Verified profile" />
+              )}
+              <ChessProfileLink href={profile.url}>
+                <SmallIcon src={chessImg} alt="Chess.com profile" />
+              </ChessProfileLink>
+            </Flex>
+            <Flex alignItems="center" gap={[3, 3]}>
+              <Flex gap={[2, 2]}>
+                <ProfileLabel>Followers:</ProfileLabel> {profile.followers}
+              </Flex>
+              <Flex gap={[2, 2]}>
+                <ProfileLabel>League:</ProfileLabel> {profile.league ?? "-"}
+              </Flex>
+            </Flex>
+            <Flex alignItems="center" gap={[3, 3]}>
+              <Flex gap={[2, 2]}>
+                <ProfileLabel>Time since last online:</ProfileLabel>{" "}
+                {timeSinceLastOnline}
+              </Flex>
+            </Flex>
+          </Flex>
+        </Flex>
+      </ProfileCard>
+    </PageWrapper>
   );
 };
