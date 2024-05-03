@@ -7,6 +7,7 @@ import { GmList } from "../pages/GmList";
 import { GmProfile } from "../pages/GmProfile";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { GlobalStyles } from "./GlobalStyles.styles";
+import { MediaQueriesProvider } from "../hooks/useMediaQueries";
 
 const queryClient = new QueryClient();
 
@@ -15,10 +16,12 @@ export function App() {
     <ThemeProvider theme={theme}>
       <GlobalStyles />
       <QueryClientProvider client={queryClient}>
-        <Router>
-          <Route path={appRoutes.list} element={<GmList />} />
-          <Route path={appRoutes.gmProfile()} element={<GmProfile />} />
-        </Router>
+        <MediaQueriesProvider>
+          <Router>
+            <Route path={appRoutes.list} element={<GmList />} />
+            <Route path={appRoutes.gmProfile()} element={<GmProfile />} />
+          </Router>
+        </MediaQueriesProvider>
       </QueryClientProvider>
     </ThemeProvider>
   );

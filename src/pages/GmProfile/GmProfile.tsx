@@ -14,6 +14,7 @@ import {
 import { Flex } from "../../components/Flex";
 import { PageWrapper } from "../../components/PageWrapper";
 import { Spacer } from "../../components/Spacer";
+import { useMediaQueries } from "../../hooks/useMediaQueries";
 
 const chessImg =
   "https://www.chess.com/bundles/web/favicons/favicon.5d6cb047.svg";
@@ -24,6 +25,7 @@ const emptyAvatarImg =
 
 export const GmProfile = () => {
   const navigate = useNavigate();
+  const { isBelow } = useMediaQueries();
 
   const { error, isLoading, profile, timeSinceLastOnline } =
     useGmProfileViewModel();
@@ -45,23 +47,37 @@ export const GmProfile = () => {
         <BackButton onClick={handleGoBack}>{"<"} Back to the list</BackButton>
       </Flex>
       <ProfileCard>
-        <Flex alignItems="flex-start" gap={[3, 3]}>
+        <Flex
+          column={isBelow.sm}
+          alignItems={isBelow.sm ? "center" : "flex-start"}
+          gap={[3, 3]}
+        >
           <ProfileAvatar
             src={profile.avatar ?? emptyAvatarImg}
             alt={`${profile.name} avatar`}
           />
           <Flex column gap={[4, 4]}>
-            <Flex alignItems="center" gap={[3, 3]}>
-              <ProfileName>{profile.name}</ProfileName>
-              <ProfileUsername>@{profile.username}</ProfileUsername>
-              {profile.verified && (
-                <SmallIcon src={verifiedImg} alt="Verified profile" />
-              )}
-              <ChessProfileLink href={profile.url}>
-                <SmallIcon src={chessImg} alt="Chess.com profile" />
-              </ChessProfileLink>
+            <Flex
+              column={isBelow.sm}
+              alignItems={isBelow.sm ? "flex-start" : "center"}
+              gap={[3, 3]}
+            >
+              {profile.name && <ProfileName>{profile.name}</ProfileName>}
+              <Flex alignItems="center" gap={[3, 3]}>
+                <ProfileUsername>@{profile.username}</ProfileUsername>
+                {profile.verified && (
+                  <SmallIcon src={verifiedImg} alt="Verified profile" />
+                )}
+                <ChessProfileLink href={profile.url}>
+                  <SmallIcon src={chessImg} alt="Chess.com profile" />
+                </ChessProfileLink>
+              </Flex>
             </Flex>
-            <Flex alignItems="center" gap={[3, 3]}>
+            <Flex
+              column={isBelow.sm}
+              alignItems={isBelow.sm ? "flex-start" : "center"}
+              gap={[3, 3]}
+            >
               <Flex gap={[2, 2]}>
                 <ProfileLabel>Followers:</ProfileLabel> {profile.followers}
               </Flex>
