@@ -4,7 +4,7 @@ import api from "../../constants/api";
 import { useMemo } from "react";
 
 export const useGmListViewModel = () => {
-  const { isPending, error, data } = useQuery({
+  const { isPending, isFetching, error, data } = useQuery({
     queryKey: ["gmList"],
     queryFn: () => fetch(`${apiUrl}${api.gmList}`).then((res) => res.json()),
   });
@@ -13,7 +13,7 @@ export const useGmListViewModel = () => {
 
   return {
     error,
-    isPending,
+    isLoading: isPending || isFetching,
     list: gmList,
   };
 };

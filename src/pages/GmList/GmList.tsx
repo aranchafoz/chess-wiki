@@ -5,15 +5,16 @@ import appRoutes from "../../constants/appRoutes";
 export const GmList = () => {
   const navigate = useNavigate();
 
-  const { error, isPending, list } = useGmListViewModel();
+  const { error, isLoading, list } = useGmListViewModel();
 
   const handleGmClick = (username: string) => {
     navigate(appRoutes.gmProfile(username));
   };
 
-  if (isPending) return <p>Loading...</p>;
+  if (isLoading) return <p>Loading...</p>;
 
-  if (error) return <p>{"An error has occurred: " + error.message}</p>;
+  if (!list || error)
+    return <p>{"An error has occurred: " + error?.message}</p>;
 
   return (
     <ol>
