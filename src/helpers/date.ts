@@ -1,10 +1,12 @@
-import { formatDistance, fromUnixTime } from "date-fns";
+import { differenceInHours, fromUnixTime, intervalToDuration } from "date-fns";
 
-export const getTimeAgo = (timestamp: number) => {
+export const getIntervalToDuration = (timestamp: number) => {
   const date = fromUnixTime(timestamp);
-  const timeAgo = formatDistance(new Date(date), new Date(), {
-    addSuffix: true,
+  const interval = intervalToDuration({
+    start: date,
+    end: new Date(),
   });
+  const diffHours = differenceInHours(new Date(), date);
 
-  return timeAgo;
+  return `${diffHours}:${interval.minutes}:${interval.seconds ?? 0}`;
 };

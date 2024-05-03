@@ -5,7 +5,7 @@ import appRoutes from "../../constants/appRoutes";
 export const GmProfile = () => {
   const navigate = useNavigate();
 
-  const { error, isLoading, profile, lastOnlineTimeAgo } =
+  const { error, isLoading, profile, timeSinceLastOnline } =
     useGmProfileViewModel();
 
   const handleGoBack = () => {
@@ -29,7 +29,7 @@ export const GmProfile = () => {
       </p>
       <p>Followers: {profile.followers}</p>
       <p>League: {profile.league ?? "-"}</p>
-      <p>Online: {lastOnlineTimeAgo}</p>
+      <p>Online: {timeSinceLastOnline}</p>
       {profile.is_streamer && <p>Streamer</p>}
       {profile.verified && <p>Verified</p>}
     </div>
